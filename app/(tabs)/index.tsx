@@ -10,10 +10,14 @@ import {tasksMock} from "../../domain/mocks/tasks";
 export default function TabOneScreen() {
 
 
-	// console.log(desiresMock)
-	// console.log(cardsManagerSingleton)
+	console.log(cardsManagerSingleton)
 	console.log(tasksMock)
 
+	setTimeout(() => {
+		console.log('\n\ndesiresMock[0]')
+		console.log(desiresMock[0])
+		desiresMock[0].assignCards()
+	}, 100)
 	/**
 	 * tem 4 goals. 5 dias, 10 dias, 25 dias e 70 dias.
 	 */

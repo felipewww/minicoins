@@ -5,3 +5,11 @@ export class DateHelper {
 		return ((((millisecondsDiff/1000)/60)/60)/24)
 	}
 }
+
+export function RandomNumber(min: number, max: number) {
+	if (min > max) {
+		throw new Error('Min should be greater than Max number.')
+	}
+
+	return Math.round(Math.random() * (max - min) + min);
+}

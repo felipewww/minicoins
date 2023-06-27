@@ -1,36 +1,28 @@
-
-// todo - criar outros tipos como: a cada 15 dias, 1 vez por mês e etc.
-import {User} from "./User";
 import {DateHelper} from "./utils/Date.helper";
-
-export enum ETaskFrequency {
-	EVERY_DAY,
-	EVERY_WEEK_DAY,
-	ONCE_A_MONTH,
-	ONCE_A_WEEK,
-}
+import {Entity} from "./entity";
+import {ITaskDTO} from "./dtos";
 
 export enum ETaskStatus {
 	ON_TIME,
 	LATE,
 }
 
-export class Task {
+export class Task extends Entity {
 
 	private status: ETaskStatus;
 
 	private delayedDays: number
 
-	constructor(
-		private id: number,
-		private title: string,
-		private isDone: boolean,
-		private points: number,
-		private startDate: Date,
-		private lastExecutionDate: Date,
-		private cycle: number
+	protected constructor(
+		public id: number,
+		public title: string,
+		public isDone: boolean,
+		public points: number,
+		public startDate: Date,
+		public lastExecutionDate: Date,
+		public cycle: number
 	) {
-
+		super()
 		this.calcStatus();
 		/**
 		 * every day - startDate = now() and cycle = 1
@@ -40,16 +32,29 @@ export class Task {
 		 */
 	}
 
+	public static create(dto: ITaskDTO) {
+		return new Task(
+			dto.id,
+			dto.title,
+			dto.isDone,
+			dto.points,
+			new Date(dto.startDate),
+			(dto.lastExecutionDate) ? new Date(dto.lastExecutionDate) : null,
+			dto.cycle
+		)
+	}
+
 	private calcStatus() {
 		const dateStart = (this.lastExecutionDate) ? this.lastExecutionDate : this.startDate
 
+		console.log(dateStart)
 		this.delayedDays = Math.floor(
 			DateHelper.calcDiffDays(dateStart, new Date())
 		)
 
 		this.status = (this.delayedDays > this.cycle) ? ETaskStatus.LATE : ETaskStatus.ON_TIME
 
-		console.log('diff is:');
+		console.log('DELAYED DAYS | STATUS');
 		console.log(this.delayedDays, this.status)
 	}
 }

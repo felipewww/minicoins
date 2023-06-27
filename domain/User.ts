@@ -2,6 +2,13 @@ import {Task} from "./Task";
 import {Allowance} from "./Allowance";
 import {IPrize, Prize} from "./Prize";
 
+export interface IUser {
+	id: number,
+	name: string,
+	isAdmin: boolean,
+	balance: number
+}
+
 export class User {
 
 	private tasks: Array<Task> = [];
@@ -11,10 +18,10 @@ export class User {
 	private allowance: Allowance;
 
 	constructor(
-		private id: number,
-		private name: string,
-		private isAdmin: boolean,
-		private balance: number
+		public id: number,
+		public name: string,
+		public isAdmin: boolean,
+		public balance: number
 	) {
 	}
 
@@ -22,6 +29,14 @@ export class User {
 		this.prizes.push(
 			Prize.create({...prize})
 		)
+	}
+
+	setPrizes(prizes: Array<Prize>) {
+		this.prizes = prizes
+	}
+
+	setTasks(tasks: Array<Task>) {
+		this.tasks = tasks
 	}
 }
 
